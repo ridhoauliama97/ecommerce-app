@@ -44,9 +44,7 @@ class BrandResource extends Resource
                                 ->dehydrated()
                                 ->unique(Brand::class, 'slug', ignoreRecord: true),
                         ]),
-                    Forms\Components\FileUpload::make('image')
-                        ->image()
-                        ->directory('brands'),
+
                     Forms\Components\Toggle::make('is_active')
                         ->required()
                         ->default(true),
@@ -61,7 +59,6 @@ class BrandResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
 
-                Tables\Columns\ImageColumn::make('image'),
 
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),

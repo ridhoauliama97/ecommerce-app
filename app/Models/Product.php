@@ -23,7 +23,7 @@ class Product extends Model
         'on_sale',
     ];
 
-    protected $casts = ['images' => 'array',];
+    protected $casts = ['images' => 'array'];
 
     public function category()
     {
