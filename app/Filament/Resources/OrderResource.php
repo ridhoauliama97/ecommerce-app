@@ -36,6 +36,8 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
+    protected static ?int $navigationSort = 5;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -106,7 +108,6 @@ class OrderResource extends Resource
                                     'jnt' => 'JNT',
                                     'sicepat' => 'SiCepat',
                                     'pos' => 'POS',
-                                    'tiki' => 'Tiki',
                                     'gojek' => 'Gojek',
                                 ]),
 
@@ -190,21 +191,12 @@ class OrderResource extends Resource
                     ->sortable()
                     ->money('IDR'),
 
-                SelectColumn::make('payment_method')
-                    ->options([
-                        'cod' => 'Cash on Delivery',
-                        'bank' => 'Bank Transfer',
-                    ])
-                    ->searchable()
+                TextColumn::make('payment_method')
+                    ->badge()
                     ->sortable(),
 
-                SelectColumn::make('payment_status')
-                    ->options([
-                        'pending' => 'Pending',
-                        'paid' => 'Paid',
-                        'cancelled' => 'Cancelled',
-                    ])
-                    ->searchable()
+                TextColumn::make('payment_status')
+                    ->badge()
                     ->sortable(),
 
                 SelectColumn::make('currency')
@@ -217,17 +209,21 @@ class OrderResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                SelectColumn::make('shipping_method')
-                    ->options([
-                        'jne' => 'JNE',
-                        'jnt' => 'JNT',
-                        'sicepat' => 'SiCepat',
-                        'pos' => 'POS',
-                        'tiki' => 'Tiki',
-                        'gojek' => 'Gojek',
-                    ])
-                    ->searchable()
+
+                TextColumn::make('shipping_method')
+                    ->badge()
                     ->sortable(),
+                // SelectColumn::make('shipping_method')
+                //     ->options([
+                //         'jne' => 'JNE',
+                //         'jnt' => 'JNT',
+                //         'sicepat' => 'SiCepat',
+                //         'pos' => 'POS',
+                //         'tiki' => 'Tiki',
+                //         'gojek' => 'Gojek',
+                //     ])
+                //     ->searchable()
+                //     ->sortable(),
 
                 TextColumn::make('status')
                     ->badge()

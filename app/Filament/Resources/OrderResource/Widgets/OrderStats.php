@@ -15,7 +15,7 @@ class OrderStats extends BaseWidget
             Stat::make('New Orders', Order::query()->where('status', 'new')->count()),
             Stat::make('Order Processing', Order::query()->where('status', 'processing')->count()),
             Stat::make('Order Shipped', Order::query()->where('status', 'shipped')->count()),
-            Stat::make('Total Order Penjualan', Number::currency(Order::query()->sum('grand_total'), 'IDR')),
+            Stat::make('Grand Total Average', Number::currency(Order::query()->avg('grand_total'), 'IDR')),
         ];
     }
 }

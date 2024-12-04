@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
+use App\Enums\ShippingMethod;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -24,6 +27,9 @@ class Order extends Model
 
     protected $casts = [
         'status' => OrderStatus::class,
+        'payment_method' => PaymentMethod::class,
+        'payment_status' => PaymentStatus::class,
+        'shipping_method' => ShippingMethod::class,
     ];
 
     public function user()

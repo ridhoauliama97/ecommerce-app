@@ -23,6 +23,10 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?int $navigationSort = 3;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -45,6 +49,10 @@ class CategoryResource extends Resource
                                 ->unique(Category::class, 'slug', ignoreRecord: true),
                         ]),
 
+                    Forms\Components\FileUpload::make('image')
+                        ->image()
+                        ->directory('categories'),
+
                     Forms\Components\Toggle::make('is_active')
                         ->required()
                         ->default(true),
@@ -58,6 +66,8 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
+                Tables\Columns\ImageColumn::make('image'),
 
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),

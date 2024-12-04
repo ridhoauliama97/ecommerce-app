@@ -23,6 +23,10 @@ class BrandResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -45,6 +49,10 @@ class BrandResource extends Resource
                                 ->unique(Brand::class, 'slug', ignoreRecord: true),
                         ]),
 
+                    Forms\Components\FileUpload::make('image')
+                        ->image()
+                        ->directory('brands'),
+
                     Forms\Components\Toggle::make('is_active')
                         ->required()
                         ->default(true),
@@ -59,6 +67,7 @@ class BrandResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
 
+                Tables\Columns\ImageColumn::make('image'),
 
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
