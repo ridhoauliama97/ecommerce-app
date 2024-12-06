@@ -231,7 +231,7 @@
 
                 @foreach ($brands as $brand)
                     <div class="bg-white rounded-lg shadow-md dark:bg-gray-800" wire:key="{{ $brand->id }}">
-                        <a wire:navigate href="#" class="">
+                        <a href="/products?selected_brands[0]={{ $brand->id }}" class="">
                             <img src="{{ url('storage', $brand->image) }}" alt="{{ $brand->name }}"
                                 class="object-cover w-full h-64 rounded-t-lg">
                         </a>
@@ -276,9 +276,8 @@
             <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
 
                 @foreach ($categories as $category)
-                    <a wire:navigate
-                        class="group flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-slate-900 dark:border-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                        href="#" wire:key="{{ $category->id }}">
+                    <a class="group flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-slate-900 dark:border-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                        href="/products?selected_categories[0]={{ $category->id }}" wire:key="{{ $category->id }}">
                         <div class="p-4 md:p-5">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center">
@@ -316,9 +315,12 @@
             <div class="max-w-xl mx-auto">
                 <div class="text-center ">
                     <div class="relative flex flex-col items-center">
-                        <h1 class="text-5xl font-bold dark:text-gray-200"> Customer <span class="text-blue-500">
+                        <h1 class="text-5xl font-bold dark:text-gray-200">
+                            Customer
+                            <span class="text-blue-500">
                                 Reviews
-                            </span> </h1>
+                            </span>
+                        </h1>
                         <div class="flex w-40 mt-2 mb-6 overflow-hidden rounded">
                             <div class="flex-1 h-2 bg-blue-200">
                             </div>
@@ -330,8 +332,7 @@
                     </div>
                     <p class="mb-12 text-base text-center text-gray-500">
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus magni eius eaque?
-                        Pariatur
-                        numquam, odio quod nobis ipsum ex cupiditate?
+                        Pariatur numquam, odio quod nobis ipsum ex cupiditate?
                     </p>
                 </div>
             </div>
@@ -347,11 +348,13 @@
                             </div>
                             <div>
                                 <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-300">
-                                    Adren Roy</h2>
+                                    Adren Roy
+                                </h2>
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Web Designer</p>
                             </div>
                         </div>
-                        <p class="px-6 text-base font-medium text-gray-600 dark:text-gray-400"> Joined 12, SEP , 2022
+                        <p class="px-6 text-base font-medium text-gray-600 dark:text-gray-400">
+                            Joined 12, SEP , 2022
                         </p>
                     </div>
                     <p class="px-6 mb-6 text-base text-gray-500 dark:text-gray-400">
@@ -410,9 +413,11 @@
                                     </a>
                                 </li>
                             </ul>
-                            <h2 class="text-sm text-gray-500 dark:text-gray-400">Rating:<span
-                                    class="font-semibold text-gray-600 dark:text-gray-300">
-                                    3.0</span>
+                            <h2 class="text-sm text-gray-500 dark:text-gray-400">
+                                Rating:
+                                <span class="font-semibold text-gray-600 dark:text-gray-300">
+                                    3.0
+                                </span>
                             </h2>
                         </div>
                         <div
