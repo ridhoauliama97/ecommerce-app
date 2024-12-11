@@ -11,7 +11,7 @@ class LoginPage extends Component
     public $email;
     public $password;
 
-    public function save()
+    public function login()
     {
         $this->validate([
             'email' => 'required|email|exists:users,email',

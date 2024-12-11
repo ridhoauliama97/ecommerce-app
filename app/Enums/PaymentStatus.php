@@ -24,8 +24,8 @@ enum PaymentStatus: string implements HasColor, HasIcon, HasLabel
     public function getColor(): string | array | null
     {
         return match ($this) {
-            self::Pending => 'info',
-            self::Paid => 'success',
+            self::Pending => 'gray',
+            self::Paid => 'primary',
             self::Cancelled => 'danger',
         };
     }

@@ -29,6 +29,7 @@ use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\AddressRelationManager;
+use App\Filament\Resources\OrderResource\Widgets\OrderStats;
 
 class OrderResource extends Resource
 {
@@ -54,8 +55,9 @@ class OrderResource extends Resource
 
                             Select::make('payment_method')
                                 ->options([
-                                    'cod' => 'Cash on Delivery',
-                                    'bank' => 'Bank Transfer',
+                                    'COD' => 'Cash on Delivery',
+                                    'BankTransfer' => 'Bank Transfer',
+                                    'Stripe' => 'Stripe',
                                 ])->required(),
 
                             Select::make('payment_status')
@@ -96,8 +98,6 @@ class OrderResource extends Resource
                             Select::make('currency')
                                 ->options([
                                     'idr' => 'IDR',
-                                    'usd' => 'USD',
-                                    'eur' => 'EUR',
                                 ])
                                 ->default('idr')
                                 ->required(),
@@ -128,8 +128,8 @@ class OrderResource extends Resource
                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->columnSpan(4)
                                     ->reactive()
-                                    ->afterStateUpdated(fn($state, Set $set) => $set('unit_amount', Product::find($state)?->price ?? 0))
-                                    ->afterStateUpdated(fn($state, Set $set) => $set('total_amount', Product::find($state)?->price ?? 0)),
+                                    ->afterStateUpdated(fn ($state, Set $set) => $set('unit_amount', Product::find($state)?->price ?? 0))
+                                    ->afterStateUpdated(fn ($state, Set $set) => $set('total_amount', Product::find($state)?->price ?? 0)),
 
                                 TextInput::make('quantity')
                                     ->numeric()
@@ -138,7 +138,7 @@ class OrderResource extends Resource
                                     ->minValue(1)
                                     ->columnSpan(2)
                                     ->reactive()
-                                    ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('total_amount', $state * $get('unit_amount'))),
+                                    ->afterStateUpdated(fn ($state, Set $set, Get $get) => $set('total_amount', $state * $get('unit_amount'))),
 
                                 TextInput::make('unit_amount')
                                     ->numeric()
@@ -193,6 +193,12 @@ class OrderResource extends Resource
 
                 TextColumn::make('payment_method')
                     ->badge()
+                    ->icon('heroicon-m-currency-dollar')
+                    ->color(fn (string $state): string => match ($state) {
+                        'COD' => 'primary',
+                        'BankTransfer' => 'info',
+                        'Stripe' => 'danger'
+                    })
                     ->sortable(),
 
                 TextColumn::make('payment_status')
@@ -202,8 +208,6 @@ class OrderResource extends Resource
                 SelectColumn::make('currency')
                     ->options([
                         'idr' => 'IDR',
-                        'usd' => 'USD',
-                        'eur' => 'EUR',
                     ])
                     ->searchable()
                     ->sortable()
@@ -213,6 +217,7 @@ class OrderResource extends Resource
                 TextColumn::make('shipping_method')
                     ->badge()
                     ->sortable(),
+
                 // SelectColumn::make('shipping_method')
                 //     ->options([
                 //         'jne' => 'JNE',
@@ -225,8 +230,15 @@ class OrderResource extends Resource
                 //     ->searchable()
                 //     ->sortable(),
 
-                TextColumn::make('status')
-                    ->badge()
+                SelectColumn::make('status')
+                    ->options([
+                        'new' => 'New',
+                        'processing' => 'Processing',
+                        'shipped' => 'Shipped',
+                        'delivered' => 'Delivered',
+                        'cancelled' => 'Canceled',
+                    ])
+                    ->selectablePlaceholder(false)
                     ->sortable(),
 
                 TextColumn::make('created_at')
@@ -269,7 +281,7 @@ class OrderResource extends Resource
 
     public static function getNavigationBadgeColor(): string|array|null
     {
-        return static::getModel()::count() > 10 ? 'primary' : 'danger';
+        return static::getModel()::count() > 10 ? 'primary' : 'gray';
     }
 
     public static function getPages(): array

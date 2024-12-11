@@ -28,11 +28,11 @@ enum ShippingMethod: string implements HasColor, HasIcon, HasLabel
     public function getColor(): string | array | null
     {
         return match ($this) {
-            self::JNE => 'info',
-            self::JNT => 'info',
-            self::SiCepat => 'info',
-            self::POS => 'info',
-            self::Gojek => 'info',
+            self::JNE => 'primary',
+            self::JNT => 'primary',
+            self::SiCepat => 'primary',
+            self::POS => 'primary',
+            self::Gojek => 'primary',
         };
     }
 
